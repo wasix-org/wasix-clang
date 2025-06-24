@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+WASIX_CLANG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+export PATH="${WASIX_CLANG_DIR}/bin:${WASIX_CLANG_DIR}/wasix-llvm/bin:$PATH"
+export CC=wasix-clang
+export CXX=wasix-clang++

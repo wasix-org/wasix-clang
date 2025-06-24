@@ -1,17 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Detect if we are clang or clang++
-if [[ "$0" =~ "++" ]]; then
-    NATIVE_COMPILER="/home/lennart/Documents/llvm-project/buildfast3/bin/clang++"
-else
-    NATIVE_COMPILER="/home/lennart/Documents/llvm-project/buildfast3/bin/clang"
+WASIX_CLANG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+WASIX_CLANG_REPO_ROOT=$(dirname $WASIX_CLANG_DIR)
+DEFAULT_SYSROOT=$WASIX_CLANG_REPO_ROOT/wasix-sysroot
+DEFAULT_LLVM=$WASIX_CLANG_REPO_ROOT/wasix-llvm
+if ! test -d "${DEFAULT_SYSROOT}" || ! test -d "${DEFAULT_LLVM}" ; then
+    echo "You are running wasix-clang for the first time. This will take a moment, as we need to fetch dependencies." >&2
+    bash ${WASIX_CLANG_REPO_ROOT}/setup.sh
 fi
 
-if [ -z "${WASIX_SYSROOT:-}" ]; then
-    echo "WASIX_SYSROOT environment variable not set" >&2
+WASIX_SYSROOT="${WASIX_SYSROOT:=$DEFAULT_SYSROOT}"
+WASIX_LLVM="${WASIX_LLVM:=$DEFAULT_LLVM}"
+if ! test -d "${WASIX_SYSROOT}" ; then
+    echo "WASIX_SYSROOT ($WASIX_SYSROOT) does not point to a valid sysroot. Please make sure it exists." >&2
     exit 1
 fi
+if ! test -d "${WASIX_LLVM}" ; then
+    echo "WASIX_LLVM ($WASIX_LLVM) does not point to a valid llvm install. Please make sure it exists." >&2
+    exit 1
+fi
+
+# Detect if we are clang or clang++
+if [[ "$0" =~ "++" ]]; then
+    NATIVE_COMPILER="${WASIX_LLVM}/bin/clang++"
+else
+    NATIVE_COMPILER="${WASIX_LLVM}/bin/clang"
+fi
+# Prefer vendored LLVM path over system path
+export PATH="${WASIX_LLVM}/bin:$PATH"
 
 PASSED_ARGS=(
     "$@"
