@@ -65,6 +65,9 @@ COMPILER_ARGS=(
     -fvisibility=default
     -fwasm-exceptions
     -fPIC
+    # Disable some new warnings
+    # TODO: Test if these can be reenabled
+    -Wno-int-conversion -Wno-implicit-function-declaration
     # Enable sjlj. This is unused when we are only linking, but figuring out if we are only linking is hard
     --start-no-unused-arguments -mllvm --wasm-enable-sjlj --end-no-unused-arguments
 )
