@@ -8,6 +8,8 @@ DEFAULT_LLVM=$WASIX_CLANG_REPO_ROOT/wasix-llvm
 if ! test -d "${DEFAULT_SYSROOT}" || ! test -d "${DEFAULT_LLVM}" ; then
     echo "You are running wasix-clang for the first time. This will take a moment, as we need to fetch dependencies." >&2
     bash ${WASIX_CLANG_REPO_ROOT}/setup.sh
+    echo "Done fetching dependencies. Please try again to actually use them." >&2
+    exit 1
 fi
 
 WASIX_SYSROOT="${WASIX_SYSROOT:=$DEFAULT_SYSROOT}"
