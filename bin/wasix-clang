@@ -128,7 +128,6 @@ ARGS+=("${FILTERED_PASSED_ARGS[@]}")
 # We can probably just include the exception transformation pass in wasmer
 
 if ! $run_linker; then
-    echo ${NATIVE_COMPILER} "${ARGS[@]}"
     # If we are not linking, we can just run the compiler directly
     exec ${NATIVE_COMPILER} "${ARGS[@]}"
 fi
@@ -145,7 +144,6 @@ for ((i=0; i<${#ARGS[@]}; i++)); do
     fi
 done
 
-set -x
 ${NATIVE_COMPILER} "${ARGS[@]}" 
 
 # Transform the old exception handling to the new one
