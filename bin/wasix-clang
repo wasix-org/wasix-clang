@@ -91,6 +91,9 @@ EXECUTABLE_LINKER_ARGS=(
     -Wl,--import-memory
     -Wl,-pie
     -Wl,--export-all
+    # Allow multiple definitions. This emulates the behaviour when linking a shared library where it is allowed to override libc functions
+    # If there is a way to only allow multiple definitions for libc functions, please let me know
+    -Wl,--allow-multiple-definition
     -Wl,--whole-archive,-lc,-lutil,-lresolv,-lrt,-lm,-lpthread,-lc++,-lc++abi,-lwasi-emulated-mman,-lwasi-emulated-getpid,-lcommon-tag-stubs,--no-whole-archive
 )
 
