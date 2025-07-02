@@ -4,6 +4,14 @@ set WORKDIR (pwd)
 set WASIX_CLANG_DIR $(cd (dirname (status -f)); and pwd)
 cd $WORKDIR
 
+if ! test -f $WASIX_CLANG_DIR/.dependencies-ok
+    echo "You are running wasix-clang for the first time. This will take a moment, as we need to fetch dependencies." >&2
+    if ! bash $WASIX_CLANG_DIR/setup.sh
+        echo "Failed to set up dependencies. Please check the output above for errors." >&2
+        exit 1
+    end
+end
+
 if test -z "$SUDO" && test (id -u) -ne 0
     set SUDO (which sudo)
 end
