@@ -14,8 +14,24 @@ function assert_command {
 assert_command bash
 assert_command wget
 assert_command tar
+assert_command awk
 assert_command wasm-opt
 assert_command nix
+
+WASM_OPT_VERSION=$(wasm-opt --version | awk '{print $3}')
+if test "$WASM_OPT_VERSION" -lt 114 ; then
+    echo "Error: wasm-opt version 114 or higher is required. Please update wasm-opt and try again." >&2
+    exit 1
+fi
+
+# Check that nix flakes and nix command is enabled
+if test "$(nix run nixpkgs#hello)" != "Hello, world!" ; then
+    echo "Error: Nix flakes are not enabled. Please enable them by adding the following to your /etc/nix/nix.conf:" >&2
+    echo "  experimental-features = nix-command flakes" >&2
+
+    echo "Or see https://nixos.wiki/wiki/Flakes for more details" >&2
+    exit 1
+fi
 
 # Fetch llvm build if it is not there yet
 if ! test -f wasix-llvm/finished ; then
