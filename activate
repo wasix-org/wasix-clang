@@ -2,9 +2,9 @@
 
 WASIX_CLANG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-if test -z "$SUDO" 
+if test -z "$SUDO" && test "$(id -u)" -ne 0 ; then
     SUDO="$(which sudo)"
-end
+fi
 
 export PATH="$WASIX_CLANG_DIR/bin:$WASIX_CLANG_DIR/wasix-llvm/bin:$WASIX_CLANG_DIR/wasix-wasmer/bin:$PATH"
 
@@ -22,4 +22,4 @@ export RANLIB=llvm-ranlib
 export AS=llvm-as
 
 # Register Wasmer as a binfmt handler
-"$SUDO" $WASMER binfmt reregister >/dev/null
+$SUDO $WASMER binfmt reregister >/dev/null
