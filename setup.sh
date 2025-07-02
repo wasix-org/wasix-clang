@@ -11,6 +11,7 @@ function assert_command {
     fi
 }
 
+assert_command xz
 assert_command which
 assert_command sudo
 assert_command bash
