@@ -42,12 +42,16 @@ You can also use `. activate` to add both (and the vendored LLVM) to your PATH.
 Example for building a ton of python packages:
 
 ```bash
-source ./wasix-clang/activate
-# build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config
-apt install -y build-essential make cmake python3.13 python3.13-venv autopoint libtool pkg-config autoconf dejagnu meson ninja-build
+# Install deps and clone repo
+sudo apt install -y build-essential make cmake python3.13 python3.13-venv autopoint libtool pkg-config autoconf dejagnu meson ninja-build
 git clone --recursive https://github.com/wasix-org/build-scripts.git
+```
 
+Build stuff
+
+```bash
 cd build-scripts
+source ../wasix-clang/activate
 make install-libs
 # make install-wheels
 ```
