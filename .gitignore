@@ -1,3 +1,5 @@
 /var
 /wasix-llvm
 /wasix-sysroot
+/wasix-wasmer
+/.dependencies-ok
