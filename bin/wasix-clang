@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+shopt -s extglob
 
 WASIX_CLANG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 WASIX_CLANG_REPO_ROOT=$(dirname $WASIX_CLANG_DIR)
@@ -102,12 +103,23 @@ EXECUTABLE_LINKER_ARGS=(
     -Wl,--whole-archive,-lc,-lutil,-lresolv,-lrt,-lm,-lpthread,-lc++,-lc++abi,-lwasi-emulated-mman,-lwasi-emulated-getpid,-lcommon-tag-stubs,--no-whole-archive
 )
 
+UNSUPPORTED_LINKER_ARGS=(
+    --end-group
+    --start-group
+    --as-needed
+    --allow-shlib-undefined
+    --enable-new-dtags
+    "--version-script=*([^,])"
+)
+
 # Filter unsupported arguments
 FILTERED_PASSED_ARGS=( )
 for arg in "${PASSED_ARGS[@]}"; do
-    # Skip the arguments we want to discard
-    if [[ "$arg" == "-Wl,--end-group" || "$arg" == "-Wl,--start-group" || "$arg" == "-Wl,--as-needed" || "$arg" == "-Wl,--allow-shlib-undefined" ]]; then
-        continue
+    if [[ "$arg" = "-Wl,"* ]]; then
+        for unsupported_linker_arg in "${UNSUPPORTED_LINKER_ARGS[@]}"; do
+            arg="${arg//,$unsupported_linker_arg/}"
+        done
+        [[ "$arg" == "-Wl" ]] && continue || true
     fi
     # Add all other arguments to our filtered list
     FILTERED_PASSED_ARGS+=("$arg")
