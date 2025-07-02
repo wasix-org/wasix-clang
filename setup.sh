@@ -11,6 +11,8 @@ function assert_command {
     fi
 }
 
+assert_command which
+assert_command sudo
 assert_command bash
 assert_command wget
 assert_command tar
