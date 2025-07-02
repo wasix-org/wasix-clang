@@ -15,6 +15,7 @@ assert_command bash
 assert_command wget
 assert_command tar
 assert_command wasm-opt
+assert_command nix
 
 # Fetch llvm build if it is not there yet
 if ! test -f wasix-llvm/finished ; then
@@ -29,4 +30,3 @@ if ! test -f wasix-sysroot/finished ; then
     wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.2/wasix-sysroot.tar.xz -O - | tar -xJ
     touch wasix-sysroot/finished
 fi
-
