@@ -110,6 +110,7 @@ UNSUPPORTED_LINKER_ARGS=(
     --allow-shlib-undefined
     --enable-new-dtags
     "--version-script=*([^,])"
+    "--version-script,*([^,])"
 )
 
 # Filter unsupported arguments
