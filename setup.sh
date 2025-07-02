@@ -4,9 +4,25 @@
 WASIX_CLANG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 cd $WASIX_CLANG_DIR
 
+function package_name {
+    case "$1" in
+        "wasm-opt")
+            echo "binaryen"
+            ;;
+        "xz")
+            echo "xz-utils"
+            ;;
+        *)
+            echo "$1"
+            ;;
+    esac 
+}
+
 function assert_command {
     if ! command -v "$1" &> /dev/null ; then
         echo "Error: $1 is not installed. Please install it and try again." >&2
+        echo "You can install it with your package manager, e.g.:" >&2
+        echo "  sudo apt install $(package_name "$1")" >&2
         exit 1
     fi
 }
