@@ -27,9 +27,12 @@ function assert_command {
     fi
 }
 
+if test "$(id -u)" -ne 0 ; then
+    assert_command ${SUDO:-sudo}
+fi
 assert_command xz
 assert_command which
-assert_command sudo
+assert_command curl
 assert_command bash
 assert_command wget
 assert_command tar
