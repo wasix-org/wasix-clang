@@ -29,7 +29,7 @@ bash ./wasix-clang/setup.sh
 The above example was tested in a clean ubuntu environment created with:
 
 ```bash
-multipass launch 25.04 -n wasix-test --disk 50G
+multipass launch 25.04 -n wasix-test --disk 50G --cpus 4 --momory 16G
 multipass shell wasix-test
 ```
 
