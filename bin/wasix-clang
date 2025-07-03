@@ -13,8 +13,14 @@ if ! test -d "${DEFAULT_SYSROOT}" || ! test -d "${DEFAULT_LLVM}" ; then
     exit 1
 fi
 
+### Options
+# Force libraries to be resolved to `.a` files instead of `.so` files.
+WASIX_FORCE_STATIC_DEPENDENCIES="${WASIX_FORCE_STATIC_DEPENDENCIES:=false}"
+# Set the wasix sysroot to use.
 WASIX_SYSROOT="${WASIX_SYSROOT:=$DEFAULT_SYSROOT}"
+# Set the root of the llvm/clang tools to use.
 WASIX_LLVM="${WASIX_LLVM:=$DEFAULT_LLVM}"
+
 if ! test -d "${WASIX_SYSROOT}" ; then
     echo "WASIX_SYSROOT ($WASIX_SYSROOT) does not point to a valid sysroot. Please make sure it exists." >&2
     exit 1
@@ -113,15 +119,22 @@ UNSUPPORTED_LINKER_ARGS=(
     "--version-script,*([^,])"
 )
 
-# Filter unsupported arguments
 FILTERED_PASSED_ARGS=( )
 for arg in "${PASSED_ARGS[@]}"; do
+    # Filter unsupported linker arguments
     if [[ "$arg" = "-Wl,"* ]]; then
         for unsupported_linker_arg in "${UNSUPPORTED_LINKER_ARGS[@]}"; do
             arg="${arg//,$unsupported_linker_arg/}"
         done
         [[ "$arg" == "-Wl" ]] && continue || true
     fi
+
+    # Force dependencies to be resolved to static libraries if requested
+    if "$WASIX_FORCE_STATIC_DEPENDENCIES" && [[ "$arg" == "-l"[^/:]* ]]; then
+        basename="${arg/#-l/}"
+        arg="-l:lib${basename}.a"
+    fi
+
     # Add all other arguments to our filtered list
     FILTERED_PASSED_ARGS+=("$arg")
 done
