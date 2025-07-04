@@ -43,7 +43,9 @@ Example for building a ton of python packages:
 
 ```bash
 # Install deps and clone repo
-sudo apt install -y build-essential make cmake python3.13 python3.13-venv autopoint libtool pkg-config autoconf dejagnu meson ninja-build bison flex perl patchelf po4a
+sudo apt install -y build-essential make cmake python3.13 python3.13-venv autopoint libtool pkg-config autoconf dejagnu meson ninja-build bison flex perl patchelf po4a 
+# Only for giflib docs
+sudo apt install -y xmlto imagemagick
 git clone --recursive https://github.com/wasix-org/build-scripts.git
 ```
 
