@@ -139,6 +139,14 @@ UNSUPPORTED_CC_ARGS=(
     "${WASIX_SYSROOT}/lib/wasm32-wasi/scrt1.o"
 )
 
+if [[ "${PASSED_ARGS[@]}" == *"-o conftest"* ]] ; then
+    # Heuristically detect if we are running an autoconf test. Then disable the shlib signature check so it works. This is a hack, but it works for now.
+    #
+    # autoconfs AC_CHECK_LIB tests for functions in libraries but always uses a () => i32 signature.
+    # See: https://www.gnu.org/software/autoconf/manual/autoconf-2.66/html_node/Libraries.html
+    COMMON_LINKER_ARGS+=( -Wl,--no-shlib-sigcheck )
+fi
+
 FILTERED_PASSED_ARGS=( )
 for arg in "${PASSED_ARGS[@]}"; do
     # Remove unsupported arguments
