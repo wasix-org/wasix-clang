@@ -65,6 +65,13 @@ done
 COMPILER_ARGS=(
     --target=wasm32-wasi
     --sysroot="${WASIX_SYSROOT}"
+    
+    -iwithsysroot "/include/c++/v1"
+    -isystem "${WASIX_LLVM}/lib/clang/21/include"
+    -iwithsysroot "/usr/local/include"
+    -iwithsysroot "/include"
+    -iwithsysroot "/usr/include"
+
     -matomics -mbulk-memory -mmutable-globals
     -pthread
     -mthread-model posix
@@ -81,6 +88,14 @@ COMPILER_ARGS=(
     --start-no-unused-arguments -mllvm --wasm-enable-sjlj --end-no-unused-arguments
 )
 COMMON_LINKER_ARGS=(
+
+    -L${WASIX_SYSROOT}/lib
+    -L${WASIX_SYSROOT}/lib/wasm32-wasi
+    -L${WASIX_SYSROOT}/usr/lib
+    -L${WASIX_SYSROOT}/usr/lib/wasm32-wasi
+    -L${WASIX_SYSROOT}/usr/local/lib
+    -L${WASIX_SYSROOT}/usr/local/lib/wasm32-wasi
+
     # Enable PIC
     -Wl,--experimental-pic
     -Wl,--extra-features=atomics,--extra-features=bulk-memory,--extra-features=mutable-globals
