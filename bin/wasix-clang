@@ -83,7 +83,7 @@ COMPILER_ARGS=(
     -fPIC
     # Disable some new warnings
     # TODO: Test if these can be reenabled
-    -Wno-int-conversion -Wno-implicit-function-declaration
+    -Wno-int-conversion -Wno-implicit-function-declaration -Wno-default-const-init-var-unsafe
     # Enable sjlj. This is unused when we are only linking, but figuring out if we are only linking is hard
     --start-no-unused-arguments -mllvm --wasm-enable-sjlj --end-no-unused-arguments
 )
