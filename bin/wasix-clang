@@ -86,6 +86,9 @@ COMPILER_ARGS=(
     -Wno-int-conversion -Wno-implicit-function-declaration -Wno-default-const-init-var-unsafe
     # Enable sjlj. This is unused when we are only linking, but figuring out if we are only linking is hard
     --start-no-unused-arguments -mllvm --wasm-enable-sjlj --end-no-unused-arguments
+    # We are getting some weird overflows without this flag. 
+    # pointer + ((unsigned long)-1) = 0xFFFFFFFFFFFFFFFF
+    -fno-strict-overflow
 )
 COMMON_LINKER_ARGS=(
 
