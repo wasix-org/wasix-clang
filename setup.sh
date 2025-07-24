@@ -86,21 +86,24 @@ assert_commands
 # Fetch llvm build if it is not there yet
 if ! test -f wasix-llvm/finished ; then
     rm -rf wasix-llvm
-    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-llvm.tar.xz -O - | tar -xJ
+    echo "Fetching the latest llvm/clang build for wasix." >&2
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-llvm.tar.xz -O - | tar -xJ
     touch wasix-llvm/finished
 fi
 
 # Fetch wasix-sysroot if it is not there yet
 if ! test -f wasix-sysroot/finished ; then
     rm -rf wasix-sysroot
-    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-sysroot.tar.xz -O - | tar -xJ
+    echo "Fetching the latest sysroot for wasix." >&2
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-sysroot.tar.xz -O - | tar -xJ
     touch wasix-sysroot/finished
 fi
 
 # Fetch wasix-wasmer if it is not there yet
 if ! test -f wasix-wasmer/finished ; then
     rm -rf wasix-wasmer
-    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-wasmer.tar.xz -O - | tar -xJ
+    echo "Fetching the latest wasmer build." >&2
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-wasmer.tar.xz -O - | tar -xJ
     touch wasix-wasmer/finished
 fi
 
@@ -108,7 +111,8 @@ fi
 if ! test -f binaryen/finished ; then
     rm -rf binaryen
     mkdir -p binaryen
-    wget -c https://github.com/WebAssembly/binaryen/releases/download/version_123/binaryen-version_123-x86_64-linux.tar.gz -O - | tar -xz --strip-components=1 --keep-directory-symlink -C binaryen
+    echo "Fetching a known good version of binaryen." >&2
+    wget -q --show-progress -c https://github.com/WebAssembly/binaryen/releases/download/version_123/binaryen-version_123-x86_64-linux.tar.gz -O - | tar -xz --strip-components=1 --keep-directory-symlink -C binaryen
     touch binaryen/finished
 fi
 
@@ -128,6 +132,11 @@ if ! test -f .dependencies-ok ; then
     #     exit 1
     # fi
 
+    if ! test -f wasix-sysroot/lib/wasm32-wasi/libc.a ; then
+        echo "Error: wasix-sysroot seems to be broken. Please make sure it is a valid sysroot." >&2
+        exit 1
+    fi
+
     if ! wasix-wasmer/bin/wasmer --version > /dev/null ; then
         echo "Error: wasix-wasmer/bin/wasmer seems to be broken, make sure it works " >&2
         exit 1
@@ -142,6 +151,6 @@ if ! test -f .dependencies-ok ; then
 fi
 
 if test "$INTERACTIVE_INSTALL" = "true" ; then
-    echo "Done fetching dependencies. You can now use wasix-clang." >&2
-    echo "To use it, run 'source $WASIX_CLANG_DIR/activate.sh' or 'source $WASIX_CLANG_DIR/activate.fish' in your shell." >&2
+    echo "Finished installing wasix-clang." >&2
+    echo "To use it, run 'source $WASIX_CLANG_DIR/activate'" >&2
 fi
