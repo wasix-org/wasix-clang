@@ -22,12 +22,12 @@ function assert_commands {
     if test -n "${MISSING_DEPS}" ; then
         echo "Error: Some dependencies are missing `"${MISSING_DEPS[@]}"`. Please install it and try again." >&2
         echo "You can install it with your package manager, e.g.:" >&2
-        echo "  ${SUDO} apt install ${MISSING_DEPS[@]}" >&2
+        echo "  ${SUDO:-sudo} apt install ${MISSING_DEPS[@]}" >&2
         if command -v "apt" &> /dev/null ; then
             read -p "Do you want to execute that command now? [y/N]:" -n 1 -r </dev/tty
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
-                ${SUDO} apt install ${MISSING_DEPS[@]} || exit 1
+                ${SUDO:-sudo} apt install ${MISSING_DEPS[@]} || exit 1
                 return 0
             fi
         fi
