@@ -86,21 +86,21 @@ assert_commands
 # Fetch llvm build if it is not there yet
 if ! test -f wasix-llvm/finished ; then
     rm -rf wasix-llvm
-    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.3/wasix-llvm.tar.xz -O - | tar -xJ
+    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-llvm.tar.xz -O - | tar -xJ
     touch wasix-llvm/finished
 fi
 
 # Fetch wasix-sysroot if it is not there yet
 if ! test -f wasix-sysroot/finished ; then
     rm -rf wasix-sysroot
-    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.3/wasix-sysroot.tar.xz -O - | tar -xJ
+    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-sysroot.tar.xz -O - | tar -xJ
     touch wasix-sysroot/finished
 fi
 
 # Fetch wasix-wasmer if it is not there yet
 if ! test -f wasix-wasmer/finished ; then
     rm -rf wasix-wasmer
-    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.3/wasix-wasmer.tar.xz -O - | tar -xJ
+    wget -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-wasmer.tar.xz -O - | tar -xJ
     touch wasix-wasmer/finished
 fi
 
