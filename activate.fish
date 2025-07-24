@@ -16,11 +16,12 @@ if test -z "$SUDO" && test (id -u) -ne 0
     set SUDO (which sudo)
 end
 
-export PATH="$WASIX_CLANG_DIR/bin:$WASIX_CLANG_DIR/wasix-llvm/bin:$WASIX_CLANG_DIR/wasix-wasmer/bin:$PATH"
+export PATH="$WASIX_CLANG_DIR/bin:$WASIX_CLANG_DIR/wasix-llvm/bin:$WASIX_CLANG_DIR/wasix-wasmer/bin:$WASIX_CLANG_DIR/binaryen/bin:$PATH"
 
 export WASIX_SYSROOT="$WASIX_CLANG_DIR/wasix-sysroot"
 export WASIX_LLVM="$WASIX_CLANG_DIR/wasix-llvm"
 export WASIX_WASMER="$WASIX_CLANG_DIR/wasix-wasmer"
+export WASIX_BINARYEN="$WASIX_CLANG_DIR/binaryen"
 
 export WASMER="$WASIX_CLANG_DIR/wasix-wasmer/bin/wasmer"
 export CC=wasix-clang

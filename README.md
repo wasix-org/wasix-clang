@@ -3,7 +3,7 @@ A lightweight clang wrapper for use with wasix.
 
 ## Installation
 
-`wasix-clang` will download a prebuild clang toolchain and wasix sysroot automatically when it is first launched. This will take a moment, as we need to fetch dependencies.
+`wasix-clang` will download a prebuild clang toolchain, wasmer executable, and wasix sysroot automatically when it is first launched. This will take a moment.
 
 You can also fetch the dependencies manually by running `setup.sh`.
 

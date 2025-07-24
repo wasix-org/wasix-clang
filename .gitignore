@@ -2,4 +2,5 @@
 /wasix-llvm
 /wasix-sysroot
 /wasix-wasmer
+/binaryen
 /.dependencies-ok
