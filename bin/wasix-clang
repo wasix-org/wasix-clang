@@ -6,7 +6,8 @@ WASIX_CLANG_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && p
 WASIX_CLANG_REPO_ROOT=$(dirname $WASIX_CLANG_DIR)
 DEFAULT_SYSROOT=$WASIX_CLANG_REPO_ROOT/wasix-sysroot
 DEFAULT_LLVM=$WASIX_CLANG_REPO_ROOT/wasix-llvm
-if ! test -d "${DEFAULT_SYSROOT}" || ! test -d "${DEFAULT_LLVM}" ; then
+DEFAULT_BINARYEN=$WASIX_CLANG_REPO_ROOT/binaryen
+if ! test -d "${DEFAULT_SYSROOT}" || ! test -d "${DEFAULT_LLVM}" || ! test -d "${DEFAULT_BINARYEN}" ; then
     echo "You are running wasix-clang for the first time. This will take a moment, as we need to fetch dependencies." >&2
     bash ${WASIX_CLANG_REPO_ROOT}/setup.sh
     echo "Done fetching dependencies. Please try again to actually use them." >&2
@@ -20,6 +21,8 @@ WASIX_FORCE_STATIC_DEPENDENCIES="${WASIX_FORCE_STATIC_DEPENDENCIES:=false}"
 WASIX_SYSROOT="${WASIX_SYSROOT:=$DEFAULT_SYSROOT}"
 # Set the root of the llvm/clang tools to use.
 WASIX_LLVM="${WASIX_LLVM:=$DEFAULT_LLVM}"
+# Set the root of the binaryen tools to use.
+WASIX_BINARYEN="${WASIX_BINARYEN:=$DEFAULT_BINARYEN}"
 
 if ! test -d "${WASIX_SYSROOT}" ; then
     echo "WASIX_SYSROOT ($WASIX_SYSROOT) does not point to a valid sysroot. Please make sure it exists." >&2
@@ -29,6 +32,10 @@ if ! test -d "${WASIX_LLVM}" ; then
     echo "WASIX_LLVM ($WASIX_LLVM) does not point to a valid llvm install. Please make sure it exists." >&2
     exit 1
 fi
+if ! test -d "${WASIX_BINARYEN}" ; then
+    echo "WASIX_BINARYEN ($WASIX_BINARYEN) does not point to a valid binaryen install. Please make sure it exists." >&2
+    exit 1
+fi
 
 # Detect if we are clang or clang++
 if [[ "$0" =~ "++" ]]; then
@@ -36,8 +43,8 @@ if [[ "$0" =~ "++" ]]; then
 else
     NATIVE_COMPILER="${WASIX_LLVM}/bin/clang"
 fi
-# Prefer vendored LLVM path over system path
-export PATH="${WASIX_LLVM}/bin:$PATH"
+# Prefer vendored LLVM and binaryen path over system path
+export PATH="${WASIX_LLVM}/bin:${WASIX_BINARYEN}/bin:$PATH"
 
 PASSED_ARGS=(
     "$@"
@@ -217,7 +224,7 @@ for ((i=0; i<${#ARGS[@]}; i++)); do
     fi
 done
 
-${NATIVE_COMPILER} "${ARGS[@]}" 
+${NATIVE_COMPILER} "${ARGS[@]}"
 
 # Transform the old exception handling to the new one
-wasm-opt --experimental-new-eh "$output_file" -o "$output_file"
+${WASIX_BINARYEN}/bin/wasm-opt --experimental-new-eh "$output_file" -o "$output_file"
