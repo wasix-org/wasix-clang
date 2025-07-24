@@ -24,7 +24,7 @@ function assert_commands {
         echo "You can install it with your package manager, e.g.:" >&2
         echo "  ${SUDO} apt install ${MISSING_DEPS[@]}" >&2
         if command -v "apt" &> /dev/null ; then
-            read -p "Do you want to execute that command now? [y/N]:" -n 1 -r
+            read -p "Do you want to execute that command now? [y/N]:" -n 1 -r </dev/tty
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
                 ${SUDO} apt install ${MISSING_DEPS[@]} || exit 1
@@ -66,7 +66,7 @@ if ! test -f $WASIX_CLANG_DIR/bin/wasix-clang ; then
         exec $INSTALL_DIR/setup.sh "$@"
     fi
 
-    read -p "Install wasix-clang to $INSTALL_DIR? [y/N]:" -n 1 -r
+    read -p "Install wasix-clang to $INSTALL_DIR? [y/N]:" -n 1 -r </dev/tty
     if ! [[ $REPLY =~ ^[Yy]$ ]]
     then
         echo "Installation cancelled." >&2
