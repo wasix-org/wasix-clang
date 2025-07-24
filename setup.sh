@@ -51,8 +51,7 @@ check_command bash
 check_command wget
 check_command tar
 check_command awk
-check_command nix
-
+# check_command nix
 
 if ! test -f $WASIX_CLANG_DIR/bin/wasix-clang ; then
     # The script is most likely run via curl. In that case it's fine to be verbose
