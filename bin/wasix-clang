@@ -99,12 +99,13 @@ COMPILER_ARGS=(
 )
 COMMON_LINKER_ARGS=(
 
-    -L${WASIX_SYSROOT}/lib
-    -L${WASIX_SYSROOT}/lib/wasm32-wasi
-    -L${WASIX_SYSROOT}/usr/lib
-    -L${WASIX_SYSROOT}/usr/lib/wasm32-wasi
-    -L${WASIX_SYSROOT}/usr/local/lib
-    -L${WASIX_SYSROOT}/usr/local/lib/wasm32-wasi
+    # Added with -Wl, so they appear after the explicit linker flags
+    -Wl,-L${WASIX_SYSROOT}/lib
+    -Wl,-L${WASIX_SYSROOT}/lib/wasm32-wasi
+    -Wl,-L${WASIX_SYSROOT}/usr/lib
+    -Wl,-L${WASIX_SYSROOT}/usr/lib/wasm32-wasi
+    -Wl,-L${WASIX_SYSROOT}/usr/local/lib
+    -Wl,-L${WASIX_SYSROOT}/usr/local/lib/wasm32-wasi
 
     # Enable PIC
     -Wl,--experimental-pic
