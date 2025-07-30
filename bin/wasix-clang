@@ -90,7 +90,7 @@ COMPILER_ARGS=(
     -fPIC
     # Disable some new warnings
     # TODO: Test if these can be reenabled
-    -Wno-int-conversion -Wno-implicit-function-declaration -Wno-default-const-init-var-unsafe
+    -Wno-int-conversion -Wno-implicit-function-declaration -Wno-default-const-init-var-unsafe -Wno-error=deprecated-literal-operator -Wno-error=sign-conversion
     # Enable sjlj. This is unused when we are only linking, but figuring out if we are only linking is hard
     --start-no-unused-arguments -mllvm --wasm-enable-sjlj --end-no-unused-arguments
     # We are getting some weird overflows without this flag. 
