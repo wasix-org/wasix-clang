@@ -142,6 +142,7 @@ UNSUPPORTED_LINKER_ARGS=(
     --as-needed
     --allow-shlib-undefined
     --enable-new-dtags
+    # Version script is not supported by wasm-ld
     "--version-script=*([^,])"
     "--version-script,*([^,])"
 )
@@ -149,6 +150,9 @@ UNSUPPORTED_LINKER_ARGS=(
 UNSUPPORTED_CC_ARGS=(
     # Remove explicit scrt1.o, because wasix-clang already added it
     "${WASIX_SYSROOT}/lib/wasm32-wasi/scrt1.o"
+    # Version script is not supported by wasm-ld
+    # TODO: Also strip `--version-script script` if there is a need for it
+    "--version-script=*([^,])"
 )
 
 if [[ "${PASSED_ARGS[@]}" == *"-o conftest"* ]] ; then
@@ -163,7 +167,7 @@ FILTERED_PASSED_ARGS=( )
 for arg in "${PASSED_ARGS[@]}"; do
     # Remove unsupported arguments
     for unsupported_cc_arg in "${UNSUPPORTED_CC_ARGS[@]}"; do
-        if [[ "$arg" == "$unsupported_cc_arg" ]]; then
+        if [[ "$arg" == $unsupported_cc_arg ]]; then
             continue 2
         fi
     done
