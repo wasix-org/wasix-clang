@@ -86,7 +86,7 @@ assert_commands
 if ! test -f wasix-llvm/finished ; then
     rm -rf wasix-llvm
     echo "Fetching the latest llvm/clang build for wasix." >&2
-    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-llvm.tar.xz -O - | tar -xJ
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.5/wasix-llvm.tar.xz -O - | tar -xJ
     touch wasix-llvm/finished
 fi
 
@@ -94,7 +94,7 @@ fi
 if ! test -f wasix-sysroot/finished ; then
     rm -rf wasix-sysroot
     echo "Fetching the latest sysroot for wasix." >&2
-    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-sysroot.tar.xz -O - | tar -xJ
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.5/wasix-sysroot.tar.xz -O - | tar -xJ
     touch wasix-sysroot/finished
 fi
 
@@ -102,7 +102,7 @@ fi
 if ! test -f wasix-wasmer/finished ; then
     rm -rf wasix-wasmer
     echo "Fetching the latest wasmer build." >&2
-    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.4/wasix-wasmer.tar.xz -O - | tar -xJ
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.5/wasix-wasmer.tar.xz -O - | tar -xJ
     touch wasix-wasmer/finished
 fi
 
