@@ -153,6 +153,7 @@ UNSUPPORTED_CC_ARGS=(
     # Version script is not supported by wasm-ld
     # TODO: Also strip `--version-script script` if there is a need for it
     "--version-script=*([^,])"
+    "-march=native"
 )
 
 if [[ "${PASSED_ARGS[@]}" == *"-o conftest"* ]] ; then
