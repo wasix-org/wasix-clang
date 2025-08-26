@@ -91,6 +91,9 @@ COMPILER_ARGS=(
     # Disable some new warnings
     # TODO: Test if these can be reenabled
     -Wno-int-conversion -Wno-implicit-function-declaration -Wno-default-const-init-var-unsafe -Wno-error=deprecated-literal-operator -Wno-error=sign-conversion -Wno-error=character-conversion
+    # TODO: These should actually be enabled again, but for now they are disabled
+    # This allows us to compile some ancient shitty code without failing. We should move these flags to the appropriate place in build-scripts
+    -Wno-error=implicit-fallthrough -Wno-error=nontrivial-memcall -Wno-error=zero-as-null-pointer-constant -Wno-error=unsafe-buffer-usage -Wno-error=exceptions -Wno-error=padded -Wno-error=disabled-macro-expansion -Wno-error=suggest-override -Wno-error=suggest-destructor-override -Wno-error=extra-semi-stmt -Wno-error=deprecated-copy-with-user-provided-copy  -Wno-error=format -Wno-error=shadow -Wno-error=c++98-compat-pedantic -Wno-error=unused-command-line-argument
     # Enable sjlj. This is unused when we are only linking, but figuring out if we are only linking is hard
     --start-no-unused-arguments -mllvm --wasm-enable-sjlj --end-no-unused-arguments
     # We are getting some weird overflows without this flag. 
