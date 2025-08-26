@@ -2,3 +2,5 @@
 /*.source
 /wasix-wasmer
 /wasix-wasmer.tar.xz
+/wasix-llvm
+/wasix-llvm.tar.xz
