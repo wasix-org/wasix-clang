@@ -148,6 +148,8 @@ UNSUPPORTED_LINKER_ARGS=(
     # Version script is not supported by wasm-ld
     "--version-script=*([^,])"
     "--version-script,*([^,])"
+    # Stats not supported by wasm-ld
+    "*-stats"
 )
 
 UNSUPPORTED_CC_ARGS=(
