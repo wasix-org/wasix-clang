@@ -143,6 +143,7 @@ UNSUPPORTED_LINKER_ARGS=(
     --end-group
     --start-group
     --as-needed
+    --no-as-needed
     --allow-shlib-undefined
     --enable-new-dtags
     # Version script is not supported by wasm-ld
