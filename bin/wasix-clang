@@ -73,7 +73,9 @@ COMPILER_ARGS=(
     --target=wasm32-wasi
     --sysroot="${WASIX_SYSROOT}"
     
+    -iwithsysroot "/usr/local/include/c++/v1"
     -iwithsysroot "/include/c++/v1"
+    -iwithsysroot "/usr/include/c++/v1"
     -isystem "${WASIX_LLVM}/lib/clang/21/include"
     -iwithsysroot "/usr/local/include"
     -iwithsysroot "/include"
