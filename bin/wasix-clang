@@ -17,6 +17,8 @@ fi
 ### Options
 # Force libraries to be resolved to `.a` files instead of `.so` files.
 WASIX_FORCE_STATIC_DEPENDENCIES="${WASIX_FORCE_STATIC_DEPENDENCIES:=false}"
+# Do not link libc++, libc++abi, and libunwind. This is only relevant when building libc++ itself.
+WASIX_DONT_LINK_LIBCXX="${WASIX_DONT_LINK_LIBCXX:=false}"
 # Set the wasix sysroot to use.
 WASIX_SYSROOT="${WASIX_SYSROOT:=$DEFAULT_SYSROOT}"
 # Set the root of the llvm/clang tools to use.
@@ -135,6 +137,14 @@ LIBRARY_LINKER_ARGS=(
     -Wl,-lclang_rt.builtins-wasm32
     ${WASIX_SYSROOT}/lib/wasm32-wasi/scrt1.o
 )
+
+LINK_LIBCXX_ARGS=,-lc++,-lc++abi,-lunwind
+if [[ "$WASIX_DONT_LINK_LIBCXX" == "true" ]]; then
+    # Only relevant when building libc++ itself
+    # TODO: Remove this once we have a shared libc++ build
+    LINK_LIBCXX_ARGS=
+fi
+
 EXECUTABLE_LINKER_ARGS=(
     -Wl,--import-memory
     -Wl,-pie
@@ -142,7 +152,7 @@ EXECUTABLE_LINKER_ARGS=(
     # Allow multiple definitions. This emulates the behaviour when linking a shared library where it is allowed to override libc functions
     # If there is a way to only allow multiple definitions for libc functions, please let me know
     -Wl,--allow-multiple-definition
-    -Wl,--whole-archive,-lc,-lutil,-lresolv,-lrt,-lm,-lpthread,-lc++,-lc++abi,-lunwind,-lwasi-emulated-mman,-lwasi-emulated-getpid,-lcommon-tag-stubs,--no-whole-archive
+    -Wl,--whole-archive,-lc,-lutil,-lresolv,-lrt,-lm,-lpthread${LINK_LIBCXX_ARGS},-lwasi-emulated-mman,-lwasi-emulated-getpid,-lcommon-tag-stubs,--no-whole-archive
 )
 
 UNSUPPORTED_LINKER_ARGS=(
