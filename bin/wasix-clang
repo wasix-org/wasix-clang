@@ -101,6 +101,10 @@ COMPILER_ARGS=(
     # We are getting some weird overflows without this flag. 
     # pointer + ((unsigned long)-1) = 0xFFFFFFFFFFFFFFFF
     -fno-strict-overflow
+
+    # For more deterministic builds
+    # -Wno-builtin-macro-redefined -D__DATE__= -D__TIME__= -D__TIMESTAMP__= 
+    -no-canonical-prefixes
 )
 COMMON_LINKER_ARGS=(
 
