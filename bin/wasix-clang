@@ -99,7 +99,7 @@ COMPILER_ARGS=(
     # This allows us to compile some ancient shitty code without failing. We should move these flags to the appropriate place in build-scripts
     -Wno-error=implicit-fallthrough -Wno-error=nontrivial-memcall -Wno-error=zero-as-null-pointer-constant -Wno-error=unsafe-buffer-usage -Wno-error=exceptions -Wno-error=padded -Wno-error=disabled-macro-expansion -Wno-error=suggest-override -Wno-error=suggest-destructor-override -Wno-error=extra-semi-stmt -Wno-error=deprecated-copy-with-user-provided-copy  -Wno-error=format -Wno-error=shadow -Wno-error=c++98-compat-pedantic -Wno-error=unused-command-line-argument
     # Enable sjlj. This is unused when we are only linking, but figuring out if we are only linking is hard
-    --start-no-unused-arguments -mllvm --wasm-enable-sjlj --end-no-unused-arguments
+    --start-no-unused-arguments -mllvm --wasm-enable-sjlj -mllvm --wasm-use-legacy-eh=false --end-no-unused-arguments
     # We are getting some weird overflows without this flag. 
     # pointer + ((unsigned long)-1) = 0xFFFFFFFFFFFFFFFF
     -fno-strict-overflow
@@ -126,6 +126,7 @@ COMMON_LINKER_ARGS=(
     -Wl,--export-if-defined=__cxa_thread_atexit_impl
     -Wl,--export=__wasm_call_ctors
     -Wl,-mllvm,--wasm-enable-sjlj
+    -Wl,-mllvm,--wasm-use-legacy-eh=false
 )
 LIBRARY_LINKER_ARGS=(
     # No standard libraries, because the main executable already provides them
@@ -229,30 +230,4 @@ fi
 ARGS+=("${FILTERED_PASSED_ARGS[@]}")
 
 
-# exec ${NATIVE_COMPILER} "${ARGS[@]}"
-
-# TODO: The below code path is only necessary, because we dont support legacy exceptions (yet?)
-# TODO: Thsi is really error prone. We do NOT want to maintain a compiler wrapper that does more than just adding flags.
-# We can probably just include the exception transformation pass in wasmer
-
-if ! $run_linker; then
-    # If we are not linking, we can just run the compiler directly
-    exec ${NATIVE_COMPILER} "${ARGS[@]}"
-fi
-
-# If we are linking, we need to run wasm-opt after the compilation to use the new exception handling
-output_file="a.out"
-for ((i=0; i<${#ARGS[@]}; i++)); do
-    if [ "${ARGS[$i]}" = "-o" ] && [ $((i+1)) -lt ${#ARGS[@]} ]; then
-        output_file="${ARGS[$i+1]}"
-        break
-    elif [[ "${ARGS[$i]}" =~ ^-o(.+)$ ]]; then
-        output_file="${BASH_REMATCH[1]}"
-        break
-    fi
-done
-
-${NATIVE_COMPILER} "${ARGS[@]}"
-
-# Transform the old exception handling to the new one
-${WASIX_BINARYEN}/bin/wasm-opt --experimental-new-eh "$output_file" -o "$output_file"
+exec ${NATIVE_COMPILER} "${ARGS[@]}"
