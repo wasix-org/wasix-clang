@@ -4,5 +4,7 @@
 /wasix-wasmer.tar.xz
 /wasix-llvm
 /wasix-llvm.tar.xz
+/wasix-sysroot
+/wasix-sysroot.tar.xz
 /binaryen
 /binaryen.tar.xz
