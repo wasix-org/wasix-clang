@@ -111,7 +111,7 @@ if ! test -f binaryen/finished ; then
     rm -rf binaryen
     mkdir -p binaryen
     echo "Fetching a known good version of binaryen." >&2
-    wget -q --show-progress -c https://github.com/WebAssembly/binaryen/releases/download/version_123/binaryen-version_123-x86_64-linux.tar.gz -O - | tar -xz --strip-components=1 --keep-directory-symlink -C binaryen
+    wget -q --show-progress -c https://github.com/WebAssembly/binaryen/releases/download/version_124/binaryen-version_124-x86_64-linux.tar.gz -O - | tar -xz --strip-components=1 --keep-directory-symlink -C binaryen
     touch binaryen/finished
 fi
 
