@@ -85,6 +85,7 @@ ln -sf llvm-ranlib ./ranlib
 ln -sf llvm-nm ./nm
 ln -sf llvm-as ./as
 ln -sf llvm-ar ./ar
+ln -sf llvm-strip ./strip
 
 cd "$BUILDFILE_DIR"
 tar cvfJ wasix-llvm.tar.xz wasix-llvm
