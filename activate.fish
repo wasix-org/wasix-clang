@@ -31,6 +31,7 @@ export NM=llvm-nm
 export LD=wasm-ld
 export RANLIB=llvm-ranlib
 export AS=llvm-as
+export STRIP=llvm-strip
 
 # Register Wasmer as a binfmt handler
 if test $SUDO != ""
