@@ -106,12 +106,11 @@ if ! test -f wasix-wasmer/finished ; then
     touch wasix-wasmer/finished
 fi
 
-# Fetch a recent version of binaryen
+# Fetch binaryen if it is not there yet
 if ! test -f binaryen/finished ; then
     rm -rf binaryen
-    mkdir -p binaryen
-    echo "Fetching a known good version of binaryen." >&2
-    wget -q --show-progress -c https://github.com/WebAssembly/binaryen/releases/download/version_124/binaryen-version_124-x86_64-linux.tar.gz -O - | tar -xz --strip-components=1 --keep-directory-symlink -C binaryen
+    echo "Fetching the latest binaryen build." >&2
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v0.0.6/binaryen.tar.xz -O - | tar -xJ
     touch binaryen/finished
 fi
 
