@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WASIX_SYSROOT_COMMIT="3ada5f98d1093c04efb45ba19666de4afe235633"
+WASIX_SYSROOT_COMMIT="06542a114f40a6eff3ba906a41d755b5cb133d2a"
 
 BUILDFILE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 if ! test -d "${BUILDFILE_DIR}" ; then
@@ -40,6 +40,7 @@ fi
 
 cd "$BUILDFILE_DIR/wasix-sysroot.source"
 git checkout "$WASIX_SYSROOT_COMMIT"
+git submodule update --recursive
 
 bash -c "source ../../activate && make pkgs/default.sysroot"
 
