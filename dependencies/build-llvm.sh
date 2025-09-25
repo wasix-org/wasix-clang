@@ -38,6 +38,7 @@ if test -d ./llvm.source ; then
     echo "Using existing llvm source directory" >&2
     cd ./llvm.source
     git fetch origin
+    git fetch origin --tags
 else
     echo "Cloning llvm source code..." >&2
     git clone --recursive https://github.com/wasix-org/llvm-project.git ./llvm.source
@@ -62,6 +63,9 @@ CMAKE_COMMAND=(
     -DCLANG_ENABLE_OBJC_REWRITER=OFF
     -DLLVM_CCACHE_BUILD=ON
     -DLLVM_TARGETS_TO_BUILD="WebAssembly;X86"
+    -DCLANG_VENDOR="WASIX"
+    -DLLD_VENDOR="WASIX"
+    -DLLVM_APPEND_VC_REV="OFF"
 )
 
 "${CMAKE_COMMAND[@]}"
