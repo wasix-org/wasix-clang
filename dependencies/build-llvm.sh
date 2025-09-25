@@ -52,7 +52,7 @@ CMAKE_COMMAND=(
     cmake llvm
     -B build-wasix-llvm
     -G Ninja
-    -DLLVM_PARALLEL_{COMPILE,LINK,TABLEGEN}_JOBS=4
+    -DLLVM_PARALLEL_{COMPILE,LINK,TABLEGEN}_JOBS=8
     -DLLVM_ENABLE_PROJECTS='clang;lld;clang-tools-extra'
     -DLLVM_USE_LINKER=lld
     -DCMAKE_INSTALL_PREFIX=/wasix-llvm
