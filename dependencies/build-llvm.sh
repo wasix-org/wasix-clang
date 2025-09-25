@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-LLVM_COMMIT="c7b09c0a9de89e698038a146851c6bdd86fc8ea9"
+LLVM_COMMIT="63389e381615454b876e6a24afd878af6cad2b96"
 
 BUILDFILE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 if ! test -d "${BUILDFILE_DIR}" ; then
@@ -46,7 +46,7 @@ fi
 
 cd "$BUILDFILE_DIR/llvm.source"
 git checkout "$LLVM_COMMIT"
-git submodule update --init --recursive
+git submodule update --recursive
 
 CMAKE_COMMAND=( 
     cmake llvm
