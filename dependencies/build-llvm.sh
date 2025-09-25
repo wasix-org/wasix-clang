@@ -95,8 +95,8 @@ ln -sf llvm-strip ./strip
 cd "$BUILDFILE_DIR"
 bash $BUILDFILE_DIR/build-sysroot.sh
 mkdir -p $BUILDFILE_DIR/wasix-llvm/lib/clang/21/lib/wasm32-unknown-wasi
-cp $BUILDFILE_DIR/wasix-sysroot/lib/wasm32-wasi/libclang_rt.builtins-wasm32.a $BUILDFILE_DIR/wasix-sysroot/lib/wasm32-wasi/libclang_rt.builtins.a
-cp $BUILDFILE_DIR/wasix-sysroot/lib/wasm32-wasi/libclang_rt.profile-wasm32.a $BUILDFILE_DIR/wasix-sysroot/lib/wasm32-wasi/libclang_rt.profile.a
+cp $BUILDFILE_DIR/wasix-sysroot/lib/wasm32-wasi/libclang_rt.builtins-wasm32.a $BUILDFILE_DIR/wasix-llvm/lib/clang/21/lib/wasm32-unknown-wasi/libclang_rt.builtins.a
+cp $BUILDFILE_DIR/wasix-sysroot/lib/wasm32-wasi/libclang_rt.profile-wasm32.a $BUILDFILE_DIR/wasix-llvm/lib/clang/21/lib/wasm32-unknown-wasi/libclang_rt.profile.a
 
 cd "$BUILDFILE_DIR"
 tar cvfJ wasix-llvm.tar.xz wasix-llvm
