@@ -65,12 +65,13 @@ if ! test -f $WASIX_CLANG_DIR/bin/wasix-clang ; then
         exec $INSTALL_DIR/setup.sh "$@"
     fi
 
-    read -p "Install wasix-clang to $INSTALL_DIR? [y/N]:" -n 1 -r </dev/tty
-    if ! [[ $REPLY =~ ^[Yy]$ ]]
-    then
-        echo "Installation cancelled." >&2
-        exit 1
-    fi
+    # # TODO: Re-enable interactive verification once I have a better idea of how to customize it.
+    # read -p "Install wasix-clang to $INSTALL_DIR? [y/N]:" -n 1 -r </dev/tty
+    # if ! [[ $REPLY =~ ^[Yy]$ ]]
+    # then
+    #     echo "Installation cancelled." >&2
+    #     exit 1
+    # fi
 
     # Assert all commands after confirmation
     assert_commands
