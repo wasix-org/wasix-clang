@@ -186,6 +186,12 @@ if [[ "${PASSED_ARGS[@]}" == *"-o conftest"* ]] ; then
     # See: https://www.gnu.org/software/autoconf/manual/autoconf-2.66/html_node/Libraries.html
     COMMON_LINKER_ARGS+=( -Wl,--no-shlib-sigcheck )
 fi
+if [[ "${PASSED_ARGS[@]}" == *"-DCHECK_FUNCTION_EXISTS="* ]] ; then
+    # Heuristically detect if we are running an cmake test. Then disable the shlib signature check so it works. This is a hack, but it works for now.
+    #
+    # cmakes CheckLibraryExists try_compile always uses a () => i32 signature.
+    COMMON_LINKER_ARGS+=( -Wl,--no-shlib-sigcheck )
+fi
 
 FILTERED_PASSED_ARGS=( )
 for arg in "${PASSED_ARGS[@]}"; do
