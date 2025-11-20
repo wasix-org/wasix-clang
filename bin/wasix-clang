@@ -127,6 +127,12 @@ COMMON_LINKER_ARGS=(
     -Wl,--export=__wasm_call_ctors
     -Wl,-mllvm,--wasm-enable-sjlj
     -Wl,-mllvm,--wasm-use-legacy-eh=false
+
+    # Export tls linking globals
+    -Wl,--export-if-defined=__tls_base
+    -Wl,--export-if-defined=__tls_size
+    -Wl,--export-if-defined=__tls_align
+    -Wl,--export-if-defined=__wasm_init_tls
 )
 LIBRARY_LINKER_ARGS=(
     # No standard libraries, because the main executable already provides them
