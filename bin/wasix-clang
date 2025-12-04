@@ -95,11 +95,11 @@ COMPILER_ARGS=(
     # Disable some new warnings
     # TODO: Test if these can be reenabled
     -Wno-int-conversion -Wno-implicit-function-declaration -Wno-default-const-init-var-unsafe -Wno-error=deprecated-literal-operator -Wno-error=sign-conversion -Wno-error=character-conversion
-    # TODO: These should actually be enabled again, but for now they are disabled
     # This allows us to compile some ancient shitty code without failing. We should move these flags to the appropriate place in build-scripts
     -Wno-error=implicit-fallthrough -Wno-error=nontrivial-memcall -Wno-error=zero-as-null-pointer-constant -Wno-error=unsafe-buffer-usage -Wno-error=exceptions -Wno-error=padded -Wno-error=disabled-macro-expansion -Wno-error=suggest-override -Wno-error=suggest-destructor-override -Wno-error=extra-semi-stmt -Wno-error=deprecated-copy-with-user-provided-copy  -Wno-error=format -Wno-error=shadow -Wno-error=c++98-compat-pedantic -Wno-error=unused-command-line-argument
     # Enable sjlj. This is unused when we are only linking, but figuring out if we are only linking is hard
-    --start-no-unused-arguments -mllvm --wasm-enable-sjlj -mllvm --wasm-use-legacy-eh=false --end-no-unused-arguments
+    # For some reason we cant use -mllvm --exception-model=wasm here, but -fwasm-exceptions implies that
+    --start-no-unused-arguments -mllvm --wasm-enable-eh -mllvm --wasm-enable-sjlj -mllvm --wasm-use-legacy-eh=false --end-no-unused-arguments
     # We are getting some weird overflows without this flag. 
     # pointer + ((unsigned long)-1) = 0xFFFFFFFFFFFFFFFF
     -fno-strict-overflow
@@ -120,13 +120,14 @@ COMMON_LINKER_ARGS=(
 
     # Enable PIC
     -Wl,--experimental-pic
-    -Wl,--extra-features=atomics,--extra-features=bulk-memory,--extra-features=mutable-globals
+    -Wl,--extra-features=atomics,--extra-features=bulk-memory,--extra-features=mutable-globals,--extra-features=reference-types,--extra-features=exception-handling
     -Wl,--shared-memory
     -Wl,--export-if-defined=__wasm_apply_data_relocs
     -Wl,--export-if-defined=__cxa_thread_atexit_impl
     -Wl,--export=__wasm_call_ctors
-    -Wl,-mllvm,--wasm-enable-sjlj
-    -Wl,-mllvm,--wasm-use-legacy-eh=false
+    # We need all four of these flags, otherwise it doesn't work with `-flto`
+    # When `-flto` is used clang emits llvm bitcode objects instead of wasm objects. When doing that the eh flags need to be present for the linker.
+    -Wl,-mllvm,--wasm-enable-eh -Wl,-mllvm,--wasm-enable-sjlj -Wl,-mllvm,--wasm-use-legacy-eh=false -Wl,-mllvm,--exception-model=wasm
 
     # Export tls linking globals
     -Wl,--export-if-defined=__tls_base
