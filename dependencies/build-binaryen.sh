@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BINARYEN_COMMIT="64ba23996a10e229d46e41eb37736a55af87f79a"
+BINARYEN_COMMIT="6ec7b5f9c615d3b224c67ae221d6812c8f8e1a96"
 
 BUILDFILE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 if ! test -d "${BUILDFILE_DIR}" ; then
