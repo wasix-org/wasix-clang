@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WASIX_SYSROOT_COMMIT="4bffd91c0a195852396f42617749bf0554341653"
+WASIX_SYSROOT_COMMIT="97ed94fc1e5a993b82e11692f42cc6b84abdfb4c"
 
 BUILDFILE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 if ! test -d "${BUILDFILE_DIR}" ; then
