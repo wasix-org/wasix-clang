@@ -42,7 +42,7 @@ cd "$BUILDFILE_DIR/wasix-sysroot.source"
 git checkout "$WASIX_SYSROOT_COMMIT"
 git submodule update --recursive
 
-bash -c "source ../../activate && make pkgs/default.sysroot"
+bash -c "source ../../activate && make clean-build-artifacts && make pkgs/default.sysroot"
 
 echo Done building wasix-sysroot
 
