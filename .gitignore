@@ -3,4 +3,5 @@
 /wasix-sysroot
 /wasix-wasmer
 /binaryen
+/libtool
 /.dependencies-ok

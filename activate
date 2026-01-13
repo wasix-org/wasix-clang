@@ -14,7 +14,11 @@ if test -z "$SUDO" && test "$(id -u)" -ne 0 ; then
     SUDO="$(which sudo)"
 fi
 
-export PATH="$WASIX_CLANG_DIR/bin:$WASIX_CLANG_DIR/wasix-llvm/bin:$WASIX_CLANG_DIR/wasix-wasmer/bin:$WASIX_CLANG_DIR/binaryen/bin:$PATH"
+export PATH="$WASIX_CLANG_DIR/bin:$WASIX_CLANG_DIR/wasix-llvm/bin:$WASIX_CLANG_DIR/wasix-wasmer/bin:$WASIX_CLANG_DIR/binaryen/bin:$WASIX_CLANG_DIR/libtool/bin:$PATH"
+
+# Support for our patched libtool
+export ACLOCAL_PATH="$WASIX_CLANG_DIR/libtool/share/aclocal:$ACLOCAL_PATH"
+export _lt_pkgdatadir="$WASIX_CLANG_DIR/libtool/share/libtool"
 
 export WASIX_SYSROOT="$WASIX_CLANG_DIR/wasix-sysroot"
 export WASIX_LLVM="$WASIX_CLANG_DIR/wasix-llvm"

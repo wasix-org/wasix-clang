@@ -117,6 +117,14 @@ if ! test -f binaryen/finished ; then
     touch binaryen/finished
 fi
 
+# Fetch libtool if it is not there yet
+if ! test -f libtool/finished ; then
+    rm -rf libtool
+    echo "Fetching the latest libtool build." >&2
+    wget -q --show-progress -c https://github.com/wasix-org/wasix-clang/releases/download/v$VERSION/libtool.tar.xz -O - | tar -xJ
+    touch libtool/finished
+fi
+
 if ! test -f .dependencies-ok ; then
     WASM_OPT_VERSION=$(binaryen/bin/wasm-opt --version | awk '{print $3}')
     if test "$WASM_OPT_VERSION" -lt 114 ; then
