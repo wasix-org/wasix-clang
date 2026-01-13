@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-WASMER_COMMIT="449dd577899a5fcb608d248cc0ebffd503a5fa10"
+WASMER_COMMIT="edeeae5cc71e361e972554a942923bafb6fc90ee"
 
 BUILDFILE_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 if ! test -d "${BUILDFILE_DIR}" ; then
