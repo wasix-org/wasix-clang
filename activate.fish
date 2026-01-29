@@ -38,8 +38,8 @@ export AS=llvm-as
 export STRIP=llvm-strip
 
 # Register Wasmer as a binfmt handler
-if test $SUDO != ""
-    $SUDO $WASMER binfmt reregister >/dev/null || echo "Warning: Failed to register wasmer as a binfmt handler. You might need to run 'sudo $WASMER binfmt register' manually." >&2
+if test "$SUDO" != ""
+    "$SUDO" $WASMER binfmt reregister >/dev/null || echo "Warning: Failed to register wasmer as a binfmt handler. You might need to run 'sudo $WASMER binfmt register' manually." >&2
 else
     $WASMER binfmt reregister >/dev/null || echo "Warning: Failed to register wasmer as a binfmt handler. You might need to run 'sudo $WASMER binfmt register' manually." >&2
 end
