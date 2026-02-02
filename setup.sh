@@ -83,7 +83,7 @@ fi
 
 assert_commands
 
-VERSION="0.0.14"
+VERSION="0.0.15"
 
 # Fetch llvm build if it is not there yet
 if ! test -f wasix-llvm/finished ; then
